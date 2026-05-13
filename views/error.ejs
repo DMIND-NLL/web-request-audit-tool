@@ -1,0 +1,12 @@
+<%- include('partials/header', { title: title || '错误' }) %>
+
+<section class="card">
+  <h1><%= message %></h1>
+  <p class="muted">状态码：<%= error.status || 500 %></p>
+  <% if (error.stack) { %>
+    <pre class="code-block"><%= error.stack %></pre>
+  <% } %>
+  <a class="btn" href="/">返回首页</a>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,51 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="page-title-row">
+  <div>
+    <h1>日志详情</h1>
+    <p class="muted">查看单条请求的完整审计信息。</p>
+  </div>
+  <a class="btn" href="javascript:history.back()">返回</a>
+</div>
+
+<section class="grid cards-3">
+  <div class="card">
+    <h3>基础信息</h3>
+    <p><strong>IP：</strong><%= log.ip %></p>
+    <p><strong>方法：</strong><%= log.method %></p>
+    <p><strong>路径：</strong><%= log.path %></p>
+    <p><strong>状态码：</strong><%= log.statusCode %></p>
+    <p><strong>响应时间：</strong><%= log.responseTime %> ms</p>
+  </div>
+  <div class="card">
+    <h3>风险信息</h3>
+    <p><strong>风险等级：</strong><span class="risk <%= log.riskLevel %>"><%= log.riskLevel %></span></p>
+    <p><strong>风险类型：</strong><%= (log.riskTypes || []).join(', ') || '-' %></p>
+    <p><strong>检测原因：</strong><%= (log.riskReasons || []).join('；') || '-' %></p>
+  </div>
+  <div class="card">
+    <h3>请求来源</h3>
+    <p><strong>User-Agent：</strong><%= log.userAgent || '-' %></p>
+    <p><strong>Referer：</strong><%= log.referer || '-' %></p>
+    <p><strong>用户ID：</strong><%= log.userId || '-' %></p>
+    <p><strong>时间：</strong><%= new Date(log.createdAt).toLocaleString('zh-CN') %></p>
+  </div>
+</section>
+
+<section class="card mt-24">
+  <h3>Original URL</h3>
+  <pre class="code-block"><%= log.originalUrl %></pre>
+</section>
+
+<section class="grid two-cols mt-24">
+  <div class="card">
+    <h3>Query 参数</h3>
+    <pre class="code-block"><%= JSON.stringify(log.query || {}, null, 2) %></pre>
+  </div>
+  <div class="card">
+    <h3>Body 参数</h3>
+    <pre class="code-block"><%= JSON.stringify(log.body || {}, null, 2) %></pre>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

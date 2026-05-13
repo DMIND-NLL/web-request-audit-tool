@@ -1,0 +1,39 @@
+<%- include('partials/header', { title }) %>
+
+<section class="hero">
+  <div>
+    <h1>Web 请求日志审计工具</h1>
+    <p>通过 Express 中间件自动采集请求日志，并基于规则识别 SQL 注入、XSS、路径穿越、敏感路径访问、高频访问和异常 User-Agent 等可疑行为。</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="/security-audit/logs">查看请求日志</a>
+      <a class="btn" href="/security-audit/statistics">查看统计分析</a>
+    </div>
+  </div>
+</section>
+
+<section class="grid cards-3">
+  <div class="card">
+    <h3>日志采集</h3>
+    <p>记录 IP、请求路径、请求参数、状态码、响应时间和访问时间。</p>
+  </div>
+  <div class="card">
+    <h3>异常检测</h3>
+    <p>通过规则识别常见异常请求，并自动标记风险类型和风险等级。</p>
+  </div>
+  <div class="card">
+    <h3>后台审计</h3>
+    <p>提供日志筛选、风险请求查看、详情分析和统计可视化。</p>
+  </div>
+</section>
+
+<section class="card mt-24">
+  <h2>演示登录请求</h2>
+  <p class="muted">提交该表单会生成一条 POST 请求日志，密码字段会自动脱敏。</p>
+  <form class="inline-form" method="post" action="/demo/login">
+    <input name="username" placeholder="用户名" value="admin">
+    <input name="password" type="password" placeholder="密码" value="123456">
+    <button class="btn primary" type="submit">提交演示请求</button>
+  </form>
+</section>
+
+<%- include('partials/footer') %>

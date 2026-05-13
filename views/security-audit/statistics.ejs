@@ -1,0 +1,79 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="page-title-row">
+  <div>
+    <h1>统计分析</h1>
+    <p class="muted">展示请求量趋势、风险类型分布、高频 IP 和热门路径。</p>
+  </div>
+</div>
+
+<section class="grid cards-3">
+  <div class="metric-card">
+    <span>今日请求数</span>
+    <strong><%= cards.todayTotal %></strong>
+  </div>
+  <div class="metric-card warning">
+    <span>今日风险请求数</span>
+    <strong><%= cards.todayRisk %></strong>
+  </div>
+  <div class="metric-card danger">
+    <span>异常 IP 数</span>
+    <strong><%= cards.riskIpCount %></strong>
+  </div>
+</section>
+
+<section class="grid two-cols mt-24">
+  <div class="card chart-card">
+    <h3>最近 7 天请求量</h3>
+    <div id="dailyChart" class="chart"></div>
+  </div>
+  <div class="card chart-card">
+    <h3>风险类型占比</h3>
+    <div id="riskTypeChart" class="chart"></div>
+  </div>
+</section>
+
+<section class="grid two-cols mt-24">
+  <div class="card chart-card">
+    <h3>Top 10 高频 IP</h3>
+    <div id="topIpChart" class="chart"></div>
+  </div>
+  <div class="card chart-card">
+    <h3>Top 10 被访问路径</h3>
+    <div id="topPathChart" class="chart"></div>
+  </div>
+</section>
+
+<section class="card table-card mt-24">
+  <h3>最近风险请求</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>时间</th>
+        <th>IP</th>
+        <th>路径</th>
+        <th>风险等级</th>
+        <th>风险类型</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (latestRisks.length === 0) { %>
+        <tr><td colspan="6" class="empty">暂无风险请求</td></tr>
+      <% } %>
+      <% latestRisks.forEach(log => { %>
+        <tr>
+          <td><%= new Date(log.createdAt).toLocaleString('zh-CN') %></td>
+          <td><%= log.ip %></td>
+          <td><%= log.path %></td>
+          <td><span class="risk <%= log.riskLevel %>"><%= log.riskLevel %></span></td>
+          <td><%= (log.riskTypes || []).join(', ') %></td>
+          <td><a class="link" href="/security-audit/detail/<%= log._id %>">详情</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
+<script src="/javascripts/statistics.js"></script>
+<%- include('../partials/footer') %>

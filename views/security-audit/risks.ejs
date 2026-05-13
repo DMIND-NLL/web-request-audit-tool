@@ -1,0 +1,76 @@
+<%- include('../partials/header', { title }) %>
+
+<div class="page-title-row">
+  <div>
+    <h1>风险请求</h1>
+    <p class="muted">仅展示风险等级不为 normal 的请求，共 <%= total %> 条。</p>
+  </div>
+</div>
+
+<section class="card">
+  <form class="filter-form" method="get" action="/security-audit/risks">
+    <input name="ip" placeholder="IP 地址" value="<%= query.ip || '' %>">
+    <input name="path" placeholder="请求路径" value="<%= query.path || '' %>">
+    <select name="riskLevel">
+      <option value="">全部风险等级</option>
+      <% ['low','medium','high'].forEach(level => { %>
+        <option value="<%= level %>" <%= query.riskLevel === level ? 'selected' : '' %>><%= level %></option>
+      <% }) %>
+    </select>
+    <select name="riskType">
+      <option value="">全部风险类型</option>
+      <% ['SQL_INJECTION','XSS','PATH_TRAVERSAL','SENSITIVE_PATH_ACCESS','HIGH_FREQUENCY_ACCESS','ABNORMAL_USER_AGENT','SERVER_ERROR','NOT_FOUND_PROBING'].forEach(type => { %>
+        <option value="<%= type %>" <%= query.riskType === type ? 'selected' : '' %>><%= type %></option>
+      <% }) %>
+    </select>
+    <input type="date" name="startDate" value="<%= query.startDate || '' %>">
+    <input type="date" name="endDate" value="<%= query.endDate || '' %>">
+    <button class="btn primary" type="submit">筛选</button>
+    <a class="btn" href="/security-audit/risks">重置</a>
+  </form>
+</section>
+
+<section class="card table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>时间</th>
+        <th>IP</th>
+        <th>路径</th>
+        <th>风险等级</th>
+        <th>风险类型</th>
+        <th>检测原因</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (logs.length === 0) { %>
+        <tr><td colspan="7" class="empty">暂无风险请求</td></tr>
+      <% } %>
+      <% logs.forEach(log => { %>
+        <tr>
+          <td><%= new Date(log.createdAt).toLocaleString('zh-CN') %></td>
+          <td><%= log.ip %></td>
+          <td class="path-cell"><%= log.path %></td>
+          <td><span class="risk <%= log.riskLevel %>"><%= log.riskLevel %></span></td>
+          <td><%= (log.riskTypes || []).join(', ') %></td>
+          <td><%= (log.riskReasons || []).join('；') %></td>
+          <td><a class="link" href="/security-audit/detail/<%= log._id %>">详情</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
+<div class="pagination">
+  <% const baseQuery = new URLSearchParams(query); baseQuery.delete('page'); %>
+  <% if (page > 1) { %>
+    <a class="btn" href="?page=<%= page - 1 %>&<%= baseQuery.toString() %>">上一页</a>
+  <% } %>
+  <span>第 <%= page %> / <%= totalPages %> 页</span>
+  <% if (page < totalPages) { %>
+    <a class="btn" href="?page=<%= page + 1 %>&<%= baseQuery.toString() %>">下一页</a>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

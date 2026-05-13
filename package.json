@@ -1,0 +1,24 @@
+{
+  "name": "web-request-audit-tool",
+  "version": "1.0.0",
+  "description": "Web 请求日志审计工具 - Express + EJS + MongoDB",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "debug": "^4.3.7",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "http-errors": "^2.0.0",
+    "mongoose": "^8.9.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
