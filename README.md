@@ -245,3 +245,11 @@ secret
 - Nginx 日志导入
 - 更细的风险规则配置
 - 日志定期清理
+
+## 项目说明
+本项目的作者及单位：
+```
+项目名称：web-request-audit-tool
+项目作者：Hong Deng, Chang Ding, Jianhui Qiu, Shengrui Gao, Zhiquan Liu
+作者单位：暨南大学网络空间安全学院
+```
